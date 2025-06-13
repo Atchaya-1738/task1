@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portfolio Builder</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #fbc2eb, #a6c1ee);
+      margin: 0;
+      padding: 40px;
+      color: #333;
+    }
+
+    h2 {
+      font-family: 'Georgia', serif;
+      font-size: 24px;
+      margin-top: 30px;
+      color: #2d0a4b;
+    }
+
+    input, textarea {
+      width: 300px;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
+    button {
+      background-color: #4caf50;
+      color: white;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin: 5px 0;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    .skill-tag {
+      display: inline-block;
+      background-color: #e0f7fa;
+      color: #00796b;
+      padding: 5px 12px;
+      margin: 5px;
+      border-radius: 20px;
+      font-size: 14px;
+    }
+
+    .skill-tag span {
+      margin-left: 8px;
+      color: red;
+      cursor: pointer;
+    }
+
+    .project-box {
+      background: #fff;
+      border-radius: 10px;
+      padding: 10px;
+      margin-top: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .project-box .actions {
+      float: right;
+      margin-top: -25px;
+    }
+
+    .section {
+      margin-bottom: 30px;
+    }
+
+    .submit-button {
+      display: block;
+      margin: 30px auto;
+      background-color: #000;
+      color: #fff;
+      padding: 12px 28px;
+      font-size: 16px;
+      border-radius: 8px;
+    }
+
+    .submit-button:hover {
+      background-color: #333;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Your Skills</h2>
+  <div class="section">
+    <input type="text" id="skillInput" placeholder="Enter a skill...">
+    <button onclick="addSkill()">Add</button>
+    <div id="skillsList"></div>
+  </div>
+
+  <h2>Your Projects</h2>
+  <div class="section">
+    <input type="text" id="projectTitle" placeholder="Project Title"><br>
+    <textarea id="projectDesc" rows="3" placeholder="Description"></textarea><br>
+    <input type="text" id="projectLink" placeholder="Link (optional)"><br>
+    <button onclick="addProject()">Add</button>
+    <div id="projectsList"></div>
+  </div>
+
+  <h2>Work Samples</h2>
+  <div class="section">
+    <input type="file"><br><br>
+    <input type="text" placeholder="Paste your portfolio link">
+  </div>
+
+  <button class="submit-button">Save & Continue</button>
+
+  <script>
+    function addSkill() {
+      const input = document.getElementById("skillInput");
+      const skill = input.value.trim();
+      if (skill === "") return;
+
+      const tag = document.createElement("span");
+      tag.className = "skill-tag";
+      tag.innerHTML = `${skill} <span onclick="this.parentElement.remove()">❌</span>`;
+      document.getElementById("skillsList").appendChild(tag);
+      input.value = "";
+    }
+
+    function addProject() {
+      const title = document.getElementById("projectTitle").value.trim();
+      const desc = document.getElementById("projectDesc").value.trim();
+      const link = document.getElementById("projectLink").value.trim();
+
+      if (title === "" || desc === "") return;
+
+      const projectDiv = document.createElement("div");
+      projectDiv.className = "project-box";
+      projectDiv.innerHTML = `
+        <div class="actions">
+          ✏️ <span style="cursor:pointer;" onclick="this.closest('.project-box').remove()">❌</span>
+        </div>
+        <strong>${title}</strong><br>
+        <em>Description:</em><br>
+        ${desc}<br>
+        ${link ? `<a href="${link}" target="_blank">View Project</a>` : ""}
+      `;
+
+      document.getElementById("projectsList").appendChild(projectDiv);
+
+      document.getElementById("projectTitle").value = "";
+      document.getElementById("projectDesc").value = "";
+      document.getElementById("projectLink").value = "";
+    }
+  </script>
+
+</body>
+</html>
